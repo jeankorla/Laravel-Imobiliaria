@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('user_create');
     }
 
     /**
@@ -35,7 +35,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $created = $this->user->create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => password_hash($request->input('password'), PASSWORD_DEFAULT),
+        ]);
+
+        if($created)
+        {
+            return redirect()->back()->with('message', 'success created');
+        }
+            return redirect()->back()->with('message', 'error created');
     }
 
     /**
@@ -43,7 +53,10 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = $this->user->find($id);
+
+        return view('user_show', ['user' => $user]);
+
     }
 
     /**
@@ -74,14 +87,10 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        
-        $deleted = $this->user->where('id', $id)->delete($request->delete());
+    {   
 
-        if($deleted)
-        {
-            return redirect()->with('message', 'success deleted');
-        }
-            return redirect()->with('message', 'error deleted');
-    }
+        $this->user->where('id', $id)->delete();
+        
+        return redirect()->route('users.index');
+    }   
 }

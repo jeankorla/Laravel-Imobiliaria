@@ -25,7 +25,9 @@ if(session()->has('message'))
         <tr>
             <td><?php echo $user -> name ?></td>
             <td><?php echo $user -> email ?></td>
-            <td><a href=" <?php echo route('users.edit', ['user' => $user->id] ) ?> ">Editar</a> | <a href="<?php echo route('users.destroy', ['user' => $user->id])?>">Excluir</a></td>
+            <td><a href=" <?php echo route('users.edit', ['user' => $user->id] ) ?> ">Editar</a>
+                |
+                <a href="<?php echo route('users.show', ['user' => $user->id])?>">Visualizar</a></td>
         </tr>
      
     </table>
